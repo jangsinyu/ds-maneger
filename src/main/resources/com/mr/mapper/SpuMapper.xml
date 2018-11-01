@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mr.mapper.SpuMapper">
+
+    <insert id="saveTMallProduct" parameterType="tMallProduct" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO
+        `t_mall_product`
+          (`shp_mch`, `shp_tp`, `flbh1`, `flbh2`, `pp_id`, `shp_msh`)
+        VALUES
+          (#{shpMch},#{shpTp},#{flbh1},#{flbh2},#{ppId},#{shpMsh})
+    </insert>
+
+    <insert id="saveTMallProductImage" parameterType="map">
+        INSERT INTO `t_mall_product_image` (`shp_id`, `url`) VALUES
+        <foreach collection="urlList" separator="," item="url">
+            (#{id},#{url})
+        </foreach>
+    </insert>
+</mapper>

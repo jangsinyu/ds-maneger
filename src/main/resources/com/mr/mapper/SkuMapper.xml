@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mr.mapper.SkuMapper">
+
+    <select id="loadSpuByTmId" parameterType="tMallProduct" resultType="tMallProduct">
+        SELECT * FROM t_mall_product WHERE flbh2 = #{flbh2} AND pp_id = #{ppId}
+    </select>
+
+    <insert id="saveSku" parameterType="tMallSkuVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO `t_mall_sku`
+            (`shp_id`,`kc`,`jg`, `sku_mch`,`kcdz`)
+        VALUES
+            (#{shpId}, #{kc},#{jg}, #{skuMch},#{kcdz})
+    </insert>
+
+    <insert id="saveSkuValue" parameterType="map">
+        INSERT INTO `t_mall_sku_attr_value`
+            (`shxm_id`, `shxzh_id`,`shp_id`, `sku_id` )
+        VALUES
+            <foreach collection="attrValues" item="val" separator=",">
+                (#{val.shxmId},#{val.shxzhId},#{shpId},#{skuId})
+            </foreach>
+    </insert>
+
+</mapper>
