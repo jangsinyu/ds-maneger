@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mr.mapper.AttrMapper">
+
+
+    <!-- 新增属性 -->
+    <insert id="saveAttr" parameterType="oBJECGTMallAttr" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO `t_mall_attr`
+            (`shxm_mch`, `flbh2`)
+        VALUES
+            (#{shxmMch}, #{flbh2})
+    </insert>
+
+
+    <!-- 新增属性值 -->
+    <insert id="saveAttrValue" parameterType="map">
+        INSERT INTO `t_mall_value`
+            (`shxzh`, `shxm_id`, `shxzh_mch`)
+        VALUES
+        <foreach collection="valueList" item="value" separator=",">
+            (#{value.shxzh},#{shxmId},#{value.shxzhMch})
+        </foreach>
+    </insert>
+
+    <!-- 查询属性集合 -->
+    <select id="getAttrListByClass2" parameterType="int" resultMap="getAttrListByClass2Map">
+        select
+            attr.* ,attr.id as attr_id ,val.* ,val.id as val_id
+        from
+            t_mall_attr attr , t_mall_value val
+        where
+            attr.Id = val.shxm_id
+        and
+            attr.flbh2 = #{flbh2}
+    </select>
+
+    <resultMap id="getAttrListByClass2Map" type="oBJECGTMallAttr" autoMapping="true">
+        <id property="id" column="attr_id" ></id>
+        <collection property="valueList" ofType="tMallValue" autoMapping="true">
+            <id property="id" column="val_id"></id>
+        </collection>
+    </resultMap>
+
+</mapper>
